@@ -37,17 +37,23 @@ function App() {
   }
 
   
-//  const [searchTerm, setSearchTerm] = useState("");
+ const [searchTerm, setSearchTerm] = useState("");
 //  const [searchResults, setSearchResults] = useState([]);
-//  const handleSearch = event => {
-//     setSearchTerm(event.target.value);
-//   };
+ const handleSearch = event => {
+    setSearchTerm(event.target.value);
+  };
+  
+  let result = taskState.filter(task =>{
+    return Object.keys(task).some(key =>
+      task[key].toString().toLowerCase().includes(searchTerm))
+  })
 
   // useEffect(() => {
-  //   const results = taskState.filter(task =>
-  //     task.toLowerCase().includes(searchTerm)
-  //   );
-  //   setSearchResults(results);
+  //   let result = taskState.filter(task =>{
+  //     return Object.keys(task).some(key =>
+  //       task[key].toString().toLowerCase().includes(searchTerm))
+  //   });
+  //   setSearchResults(result);
   // }, [searchTerm]);
 
 
@@ -61,11 +67,11 @@ function App() {
         titleValue={titleInput}
         deadlineValue={deadlineInput}
       />
-      {/* <div className='search'>
+      <div className='search'>
         <input type="text" placeholder="Search a task" value={searchTerm} onChange={handleSearch} />
-      </div> */}
+      </div>
       {
-          taskState.map(task => {
+          result.map(task => {
           return(
             <List 
               key={task.id}
