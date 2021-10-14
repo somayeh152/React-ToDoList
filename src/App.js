@@ -1,7 +1,8 @@
 import React , {useState , useEffect} from 'react';
-import './sass/app.css';
+import './sass/app.scss';
 import List from './components/List/List';
 import Add from './components/Add/Add';
+import Search from './components/Search/Search';
 
 function App() {
 
@@ -16,60 +17,27 @@ function App() {
   const [titleInput , setTitleInput] = useState();
   const [deadlineInput , setdDadlineInput] = useState();
 
-  const handleTextChange = (e) =>{
-    setTitleInput(e.target.value);
-  }
-
-  const handleDeadlineChange = (e) =>{
-    setdDadlineInput(e.target.value);
-  }  
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const id = (taskState.length) ? taskState[taskState.length - 1].id + 1 : 0;
-    setTaskState([...taskState, {id: id , title:titleInput , deadline:deadlineInput}]);
-    setTitleInput('');
-    setdDadlineInput('');
-  }
-
-  const handleRemove = (index) => {
-    setTaskState(taskState.filter(item => item.id !== index ));
-  }
-
   
  const [searchTerm, setSearchTerm] = useState("");
-//  const [searchResults, setSearchResults] = useState([]);
- const handleSearch = event => {
-    setSearchTerm(event.target.value);
-  };
   
   let result = taskState.filter(task =>{
     return Object.keys(task).some(key =>
       task[key].toString().toLowerCase().includes(searchTerm))
   })
 
-  // useEffect(() => {
-  //   let result = taskState.filter(task =>{
-  //     return Object.keys(task).some(key =>
-  //       task[key].toString().toLowerCase().includes(searchTerm))
-  //   });
-  //   setSearchResults(result);
-  // }, [searchTerm]);
-
 
   return (
     <div className="App">
       <h1>To Do List</h1>
       <Add
-        submit={e => handleSubmit(e)}
-        textChange={handleTextChange}
-        deadlineChange={handleDeadlineChange}
-        titleValue={titleInput}
-        deadlineValue={deadlineInput}
+        titleInput={titleInput}
+        deadlineInput={deadlineInput}
+        taskState={taskState}
+        setTaskState={setTaskState}
+        setTitleInput={setTitleInput}
+        setdDadlineInput={setdDadlineInput}
       />
-      <div className='search'>
-        <input type="text" placeholder="Search a task" value={searchTerm} onChange={handleSearch} />
-      </div>
+      <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       {
           result.map(task => {
           return(
@@ -77,7 +45,9 @@ function App() {
               key={task.id}
               title={task.title}
               deadline={task.deadline}
-              remove={() => handleRemove(task.id)}
+              id={task.id}
+              taskState={taskState}
+              setTaskState={setTaskState}
             />
           )
         })

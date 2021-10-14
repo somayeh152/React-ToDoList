@@ -1,14 +1,23 @@
 import React from "react";
-import './add.css';
+import './add.scss';
 
-function Add(props) {
+function Add({ taskState , titleInput , deadlineInput , setTaskState , setTitleInput , setdDadlineInput }) {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const id = (taskState.length) ? taskState[taskState.length - 1].id + 1 : 0;
+    setTaskState([...taskState, {id: id , title:titleInput , deadline:deadlineInput}]);
+    setTitleInput('');
+    setdDadlineInput('');
+  }
     return(
         <div className="addTask">
         <span>Add a task:</span>
-        <form onSubmit={props.submit}>
-          <input type="text" name="title" placeholder="Enter title" value={props.titleValue} onChange={props.textChange} required />
-          <input type="text" name="deadline" placeholder="Enter deadline" value={props.deadlineValue} onChange={props.deadlineChange} required />
-          <button type="submit" className='button add'>Add</button>
+        
+        <form onSubmit={handleSubmit}>
+          <input type="text" name="title" placeholder="Enter title" value={titleInput} onChange={e => setTitleInput(e.target.value)} required />
+          <input type="text" name="deadline" placeholder="Enter deadline" value={deadlineInput} onChange={e => setdDadlineInput(e.target.value)} required />
+          <button type="submit" className='button add' >Add</button>
         </form>
       </div>
     )
