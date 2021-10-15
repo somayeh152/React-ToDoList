@@ -17,13 +17,7 @@ function App() {
   const [titleInput , setTitleInput] = useState();
   const [deadlineInput , setdDadlineInput] = useState();
 
-  
- const [searchTerm, setSearchTerm] = useState("");
-  
-  let result = taskState.filter(task =>{
-    return Object.keys(task).some(key =>
-      task[key].toString().toLowerCase().includes(searchTerm))
-  })
+  const [searchTerm, setSearchTerm] = useState("");
 
 
   return (
@@ -38,20 +32,7 @@ function App() {
         setdDadlineInput={setdDadlineInput}
       />
       <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      {
-          result.map(task => {
-          return(
-            <List 
-              key={task.id}
-              title={task.title}
-              deadline={task.deadline}
-              id={task.id}
-              taskState={taskState}
-              setTaskState={setTaskState}
-            />
-          )
-        })
-      }
+      <List taskState={taskState} setTaskState={setTaskState} searchTerm={searchTerm} />
     </div>
   );
 }

@@ -1,24 +1,29 @@
 import React from "react";
 import './sass/list.scss';
+import Todo from "../Todo/Todo";
 
-function List({title , deadline , id , taskState, setTaskState}) {
+function List({taskState, setTaskState , searchTerm}) {
 
-    const handleRemove = (index) => {
-        setTaskState(taskState.filter(item => item.id !== index ));
-    }
+    let result = taskState.filter(task =>{
+        return Object.keys(task).some(key =>
+          task[key].toString().toLowerCase().includes(searchTerm))
+      })
 
     return(
         <div className="list">
             <ul>
-                <li>
-                    <div className="taskRow">
-                        <div className="taskInfo">
-                            <h4 className="title">{title}</h4>
-                            <span className="deadline">Deadline: {deadline}</span>
-                        </div>
-                        <button onClick={() => handleRemove(id)} className="button remove">Remove</button> 
-                    </div>
-                </li>
+                {result.map(task => {
+                    return(
+                        <Todo 
+                        key={task.id}
+                        title={task.title}
+                        deadline={task.deadline}
+                        id={task.id}
+                        taskState={taskState}
+                        setTaskState={setTaskState} 
+                        />
+                    )
+                })}
             </ul>
         </div>
     )
