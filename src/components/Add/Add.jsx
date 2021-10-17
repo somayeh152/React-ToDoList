@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useContext , useState} from "react";
 import './add.scss';
+import { TaskStateContext } from "../../TaskStateContext";
 
-function Add({ taskState , titleInput , deadlineInput , setTaskState , setTitleInput , setdDadlineInput }) {
+
+function Add() {
+
+  const [taskState , setTaskState] = useContext(TaskStateContext);
+  
+  const [titleInput , setTitleInput] = useState();
+  const [deadlineInput , setdDadlineInput] = useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();

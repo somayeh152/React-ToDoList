@@ -1,7 +1,10 @@
-import React from "react";
+import React , {useContext} from "react";
 import '././sass/todo.scss';
+import { TaskStateContext } from "../../TaskStateContext";
 
-function Todo({title , deadline , id , taskState, setTaskState}) {
+function Todo({title , deadline , id }) {
+
+    const [ taskState , setTaskState ] = useContext(TaskStateContext); 
     
     const handleRemove = (index) => {
         setTaskState(taskState.filter(item => item.id !== index ));
